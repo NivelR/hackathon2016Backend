@@ -72,4 +72,17 @@ group :production do
   gem 'rails_12factor'
 end
 
+
+gem 'watir-rails'
+
+# gem 'google-search'
+
+# gem 'sentimental'
+
+gem 'azure_mgmt_cognitive_services'
+
+gem 'rest-client'
+
+gem 'dotenv-rails', :groups => [:development, :test]
+
 ruby "2.3.0"
