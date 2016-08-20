@@ -14,10 +14,10 @@ class CognitiveService
     }
     scores = []
     docs = []
-    @texts.each do |text|
+    @texts.each_with_index do |text,i|
       docs  <<
           {
-            "id": "string",
+            "id": i.to_s,
             "text": text
           }
     end
