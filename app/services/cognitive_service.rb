@@ -35,4 +35,8 @@ class CognitiveService
     @avg =  @scores.sum / @scores.size.to_f
     @scores
   end
+
+  def texts_scores
+    texts.each_with_index.map { |t,i| {text: t, score: scores[i]} }
+  end
 end
