@@ -1,25 +1,38 @@
 class HelloController < ApplicationController
   def index
     # SearchsJob.perform_later(params[:q])
-    rank_for params[:q]
-    render(json: {message: params[:q]})
+    cognitve = search(params[:q])
+    render(json: {
+        points: get_point(cognitve.avg),
+        name: params[:q],
+        type: get_type(cognitve.avg),
+        texts: cognitve.texts_scores
+      })
   end
 
-  def find_item uri, query
-    search = Google::Search::Web.new do |search|
-      search.query = query
-      search.size = :large
-      search.each_response { print '.'; $stdout.flush }
+  def search(q)
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key    = ENV['TW_Consumer_key']
+      config.consumer_secret = ENV['TW_Consumer_secret']
     end
-    search.find { |item| item.uri =~ uri }
+
+    tws = client.search("#{q} -filter:retweets", result_type: "mixed", lang: "es").take(20).map{|t| t.text }
+
+    CognitiveService.new(tws)
   end
 
-  def rank_for query
-    print "%35s " % query
-    if item = find_item(/vision\-media\.ca/, query)
-      puts " #%d" % (item.index + 1)
+  def get_point(p)
+    (p * 100).to_i
+  end
+
+  def get_type(t)
+    if t < 0.5
+      "m"
+    elsif t < 0.8
+      "r"
     else
-      puts " Not found"
+      "b"
     end
   end
+
 end
