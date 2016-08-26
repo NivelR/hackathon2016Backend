@@ -24,9 +24,6 @@ group :development, :test do
    # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-
 	#Personaliza los mensajes de error de Rails.
   gem "better_errors"
 
@@ -85,6 +82,6 @@ gem 'rest-client'
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
-ruby "2.3.0"
+ruby "2.3.1"
 
 gem 'twitter'
